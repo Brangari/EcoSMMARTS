@@ -39,7 +39,7 @@ close all;
 % % Parameter definition for SMMARTS_Eco
     % % % % C compartments: POM (particulate organic matter), DOC (dissolved organic carbon), AC (active cells), EPS (extracellular polymeric substances), EZ  (enzymes), DC (dormant cells), OSac (osmolytes in AC), OSdc (osmolytes in DC), ZC (cell residues or "zombie cells")
     POM_in = 15;        % Initial concentration of POM [mg/cm^3] -> Brangarí et al. (2018)
-    C_in = 0.01/0.0946; % Initial mass of DOC [mg/cm^3] -> Lawrence et al. (2009) (concentration / VWC)
+    C_in = 0.05/0.0946; % Initial mass of DOC [mg/cm^3] -> Lawrence et al. (2009) (concentration / VWC)
     EZ_in = 6e-3;       % Initial concentration of EZ [mg/cm^3] -> Brangarí et al. (2018)
     AC_in = 7e-1;       % Initial concentration of AC [mg/cm^3] -> Lawrence et al. (2009)
     DC_in = AC_in;      % Initial concentration of DC [mg/cm^3] -> Blagodatskaya and Kuzyakov (2013)
