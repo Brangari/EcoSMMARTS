@@ -340,7 +340,7 @@ function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,Resp
     ii = 1;
     Time_aux = Time(1);
     TimeNext = Time(2);
-    DTX = DT/100;
+    DTX = DT/10;
 
 while TimeNext<=TargetMin
     
@@ -389,9 +389,9 @@ while TimeNext<=TargetMin
             countsol = 1;
             Time_aux = Time_aux + dt;
             if Time_aux~=timeRW
-                DTX = min(DT,1.5*DTX);
+                DTX = min(DT,1.01*DTX);
             else
-                DTX = DT/100;
+                DTX = DT/10;
             end
         else
             dt = dt/10;
@@ -412,7 +412,7 @@ while TimeNext<=TargetMin
     elseif ThetaW_new>ThetaW_old        % Change of DOC and EZ concentrations after a moistrue increase
         C_new = vecK(2)*(C_new*ThetaW_old+C_new*RelCinlet*(ThetaW_new-ThetaW_old))/ThetaW_new + (vecK(2)==0)*C_new;
      	EZ_new = vecK(5)*(EZ_new*ThetaW_old)/ThetaW_new + (vecK(5)==0)*EZ_new;
-        DTX = DT/100;
+        DTX = DT/10;
     end
 
     if Time_aux >= TimeNext     % storage of output results
