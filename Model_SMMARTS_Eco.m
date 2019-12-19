@@ -16,8 +16,7 @@ close all;
     LabTimeW4w = [0 1.9 4 6 7 23 23.1 25 26 29 31 37.9 51 51.1 53 54 59 63 64.1 79 79.1 82 84 86 87 92 105 105.1 111]; % must be defined at least until TimeD: LabW4w(end)>=TimeD
     LabW4w = [59.9 57.9 41.8 12.3 4.1 4 59.6 57.9 57.7 40.9 12.5 4.1 4 57.5 57.5 53.6 12.5 5 4 4 58.4 58.4 34.1 31 12.3 4.1 4 56.5 25.5];
     T_hist = linspace(0,90,90/TimeD*(lv-1));     % Legacy of the soils (previous treatment): stored during 90 days 
-    W_hist = 4*ones(1,length(T_hist));      % Legacy of the soils (previous treatment): stored under air-dry conditions 
-
+    W_hist = 4*ones(1,length(T_hist));      % Legacy of the soils (previous treatment): here stored under air-dry conditions 4%WHC !!All saturations must be always >= frThetaD (line 269)
 % % Parameter definition for Lawrence models
     ka = [0.075 0.05 0.05 0.05]; % [1/d]
     ks = [0.035 0.04 0.05 0.007]; % [1/d]
