@@ -269,7 +269,7 @@ function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,Resp
     frThetaD = 3/100;           % WHC at air-dry (fraction of WHC that is the minimum supporting activity)
     PsiMos = 1.5e5;             % Maximum water potential compensated by osmoregulation (no worth at higher): Important for the Y
     t_hist = (T_hist-T_hist(end))*24*60; 
-    posRW = islocalmin(W,'FlatSelection','last');     % identification of rewetting events
+    posRW = diff([W 0])>0;      % identification of rewetting events
     timeRW = TimeW(posRW)*24*60;
     
     TOL = 1e-35;     % solver tolerance
