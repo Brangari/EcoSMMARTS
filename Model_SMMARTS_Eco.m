@@ -255,6 +255,7 @@ function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,Resp
                                                                                                              Lambda_EZ,Y_M,Mu_Ca,Mu_Cz,Mu_POM,Mu_EPS,Yos,rAC,multDry,K_C,K_EZ,K_EPS,KdAC,KdACs,...
                                                                                                              KdDC,KdEZ,KdEPS,KdZC,Lambda_r,Lambda_z,Tau_i,Tau_a,Tau_OS,tMem,RelCinlet,vecK)        
 % % Initialization of variables and some parameters required for the computation
+% Note that all water potentials are defined directly as positive values (as suction) and in cm (1KPa = 10.197 cmH2O)
     wbar = waitbar(0,'Drying and rewetting a virtual soil requires some time...','Name','SMMARTS_ECO MODEL');
     wbart = round(linspace(0,lv,100));
     
