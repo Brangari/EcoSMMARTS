@@ -248,7 +248,7 @@ function [Time,Mic,Slw,Pas,Doc,Enz,Cbi,Resp,Grow] = LawrenceM4(TimeD,ka,ks,kp,kd
 end
 
 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%% Model SMMARTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Model EcoSMMARTS
 
 function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,RespDC,Growth,TimeDay] = EcoSMMARTS(TimeD,TimeW,W,lv,T_hist,W_hist,...
                                                                                                              ThetaS,ThetaR,a,n,Gamma,wb,POM_in,C_in,EZ_in,AC_in,DC_in,ZC_in,EPS_in,a3,ADD,Lambda_EPS,...
