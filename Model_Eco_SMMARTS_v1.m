@@ -1,4 +1,4 @@
-function [] = Model_SMMARTS_Eco()
+function [] = Model_Eco_SMMARTS_v1()
 % % % % Simulation of the SMMARTS_Eco model
 % % % % Reproduces the respiration data presented in Miller et al. (2005) - Other data can easily be used
 % % % % Includes comparison to the models from Lawrence et al. (2009)
