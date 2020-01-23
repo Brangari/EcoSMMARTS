@@ -1,5 +1,5 @@
 function [] = Model_EcoSMMARTS_v1()
-% % % % Simulation of the SMMARTS_Eco model
+% % % % Simulation of the EcoSMMARTS model
 % % % % Reproduces the respiration data presented in Miller et al. (2005) - Other data can easily be used
 % % % % Includes comparison to the models from Lawrence et al. (2009)
 % % % % By Albert C Brangarí. Lund University, Centre for Environmental and Climate Research, 2019.
@@ -35,7 +35,7 @@ close all;
     Enz0 = [0 0 0.01 0.01]; % [mg/cm^3] 
     Cbi0 = [0 0 0 0.05]; % [mg/cm^3]
 
-% % Parameter definition for SMMARTS_Eco
+% % Parameter definition for EcoSMMARTS
     % % % % C compartments: POM (particulate organic matter), DOC (dissolved organic carbon), AC (active cells), EPS (extracellular polymeric substances), EZ  (enzymes), DC (dormant cells), OSac (osmolytes in AC), OSdc (osmolytes in DC), ZC (cell residues or "zombie cells")
     POM_in = 15;        % Initial concentration of POM [mg/cm^3] -> Brangarí et al. (2018)
     C_in = 0.05/0.0946; % Initial mass of DOC [mg/cm^3] -> Lawrence et al. (2009) (concentration / VWC)
@@ -98,8 +98,8 @@ close all;
         waitbar(1);
         close(wbar)
     
-% % Run simulations (SMMARTS_Eco)
-    [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,RespDC,Growth,TimeDay] = SMMARTS(TimeD,LabTimeW4w,LabW4w,lv,T_hist,W_hist,...
+% % Run simulations (EcoSMMARTS)
+    [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,RespDC,Growth,TimeDay] = EcoSMMARTS(TimeD,LabTimeW4w,LabW4w,lv,T_hist,W_hist,...
                                                                                                          ThetaS,ThetaR,a,n,Gamma,wb,POM_in,C_in,EZ_in,AC_in,DC_in,ZC_in,EPS_in,a3,ADD,Lambda_EPS,...
                                                                                                          Lambda_EZ,Y_M,Mu_Ca,Mu_Cz,Mu_POM,Mu_EPS,Yos,rAC,multDry,K_C,K_EZ,K_EPS,KdAC,KdACs,...
                                                                                                          KdDC,KdEZ,KdEPS,KdZC,Lambda_r,Lambda_z,Tau_i,Tau_a,Tau_OS,tMem,RelCinlet,vecK);
@@ -117,7 +117,7 @@ close all;
                         hh(2)=plot(Time4w(5,:)',Resp4w(5,:)','k','LineWidth',2);
                         hh(1)=plot(LabTimeR,LabResp4w,'o','MarkerEdgeColor',[0 0.5 0],'LineWidth',2);
                         ylabel('Resp. [mg/cm^3/d]');
-                        legend(hh,{'data','SMMARTS\_Eco','LMs FO1','LMs FO2','LMs EC1','LMs EC2'});
+                        legend(hh,{'data','EcoSMMARTS','FO1','FO2','EC1','EC2'});
         subplot(2,2,4); plot(Time4w(1:4,:)',(Grow4w(1:4,:)./(Resp4w(1:4,:)+Grow4w(1:4,:)))','--','LineWidth',1);
                         plot(Time4w(5,:)',(Grow4w(5,:)./(Resp4w(5,:)+Grow4w(5,:)))','k','LineWidth',2);
                         xlabel('Time [d]'); ylabel('CUE [-]');
@@ -250,13 +250,13 @@ end
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Model SMMARTS
 
-function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,RespDC,Growth,TimeDay] = SMMARTS(TimeD,TimeW,W,lv,T_hist,W_hist,...
+function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,RespDC,Growth,TimeDay] = EcoSMMARTS(TimeD,TimeW,W,lv,T_hist,W_hist,...
                                                                                                              ThetaS,ThetaR,a,n,Gamma,wb,POM_in,C_in,EZ_in,AC_in,DC_in,ZC_in,EPS_in,a3,ADD,Lambda_EPS,...
                                                                                                              Lambda_EZ,Y_M,Mu_Ca,Mu_Cz,Mu_POM,Mu_EPS,Yos,rAC,multDry,K_C,K_EZ,K_EPS,KdAC,KdACs,...
                                                                                                              KdDC,KdEZ,KdEPS,KdZC,Lambda_r,Lambda_z,Tau_i,Tau_a,Tau_OS,tMem,RelCinlet,vecK)        
 % % Initialization of variables and some parameters required for the computation
 % Note that all water potentials are defined directly as positive values (as suction) and in cm (1KPa = 10.197 cmH2O)
-    wbar = waitbar(0,'Drying and rewetting a virtual soil requires some time...','Name','SMMARTS_ECO MODEL');
+    wbar = waitbar(0,'Drying and rewetting a virtual soil requires some time...','Name','EcoSMMARTS MODEL');
     wbart = round(linspace(0,lv,100));
     
     Time = linspace(0,TimeD*24*60,lv);  % Time vector [min]
