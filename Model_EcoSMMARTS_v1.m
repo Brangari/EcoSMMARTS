@@ -59,7 +59,6 @@ close all;
     Mu_Ca = 3.5e-4;     % Maximum specific uptake rate [1/min] -> From calibration
     Mu_Cz = Mu_Ca/2;    % Maximum specific mineralization rate by cell residues [1/min] -> From calibration
     Mu_POM = 1.7e-5; 	% Maximum specific POM decomposition rate [1/min] -> From calibration
-    Mu_EPS = 0;         % Maximum specific EPS decomposition rate [1/min] -> EPS excluded in this simulation (see Brangarí et al (2018))
     Yos = 0.6;         	% Yield coefficient of OS elimination [-] -> Calibrated (if =0: no assimilation -> all to respiration)
     rAC = 1e-2;         % Yield coefficient of reactivation	[-] -> Calibrated
     multDry = 2;        % Coefficient of aggregate disruption [-] -> Calibrated
@@ -101,7 +100,7 @@ close all;
 % % Run simulations (EcoSMMARTS)
     [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,RespDC,Growth,TimeDay] = EcoSMMARTS(TimeD,LabTimeW4w,LabW4w,lv,T_hist,W_hist,...
                                                                                                          ThetaS,ThetaR,a,n,Gamma,wb,POM_in,C_in,EZ_in,AC_in,DC_in,ZC_in,EPS_in,a3,ADD,Lambda_EPS,...
-                                                                                                         Lambda_EZ,Y_M,Mu_Ca,Mu_Cz,Mu_POM,Mu_EPS,Yos,rAC,multDry,K_C,K_EZ,K_EPS,KdAC,KdACs,...
+                                                                                                         Lambda_EZ,Y_M,Mu_Ca,Mu_Cz,Mu_POM,Yos,rAC,multDry,K_C,K_EZ,K_EPS,KdAC,KdACs,...
                                                                                                          KdDC,KdEZ,KdEPS,KdZC,Lambda_r,Lambda_z,Tau_i,Tau_a,Tau_OS,tMem,RelCinlet,vecK);
     Time4w(5,:) = TimeDay;
     Resp4w(5,:) = RespAC+RespZC+RespOS+RespDC;
@@ -252,7 +251,7 @@ end
 
 function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,RespDC,Growth,TimeDay] = EcoSMMARTS(TimeD,TimeW,W,lv,T_hist,W_hist,...
                                                                                                              ThetaS,ThetaR,a,n,Gamma,wb,POM_in,C_in,EZ_in,AC_in,DC_in,ZC_in,EPS_in,a3,ADD,Lambda_EPS,...
-                                                                                                             Lambda_EZ,Y_M,Mu_Ca,Mu_Cz,Mu_POM,Mu_EPS,Yos,rAC,multDry,K_C,K_EZ,K_EPS,KdAC,KdACs,...
+                                                                                                             Lambda_EZ,Y_M,Mu_Ca,Mu_Cz,Mu_POM,Yos,rAC,multDry,K_C,K_EZ,K_EPS,KdAC,KdACs,...
                                                                                                              KdDC,KdEZ,KdEPS,KdZC,Lambda_r,Lambda_z,Tau_i,Tau_a,Tau_OS,tMem,RelCinlet,vecK)        
 % % Initialization of variables and some parameters required for the computation
 % Note that all water potentials are defined directly as positive values (as suction) and in cm (1KPa = 10.197 cmH2O)
@@ -278,7 +277,7 @@ function [POM,DOC,AC,DC,EPS,EZ,OSac,OSdc,ZC,Psi,ThetaW,RespAC,RespZC,RespOS,Resp
     
     if vecK(1)==0; ADD = 0; end     % redefine some variables according to vecK (activates/deactivates model compartments)
     if vecK(3)==0; KdAC = 0; KdACs = 0; Tau_i = 0; Tau_a = 0; end
-    if vecK(4)==0; Lambda_EPS = 0; KdEPS = 0; Mu_EPS = 0; end
+    if vecK(4)==0; Lambda_EPS = 0; KdEPS = 0; end
     if vecK(5)==0; Lambda_EZ = 0; KdEZ = 0; end
     if vecK(6)==0; KdDC = 0; Tau_i = 0; Tau_a = 0; end
     if vecK(7)==0; Tau_OS = 0; KdACs = 0; end
@@ -377,7 +376,7 @@ while TimeNext<=TargetMin
 
         POM_new = POM_old + vecK(1)*dt*(ADD - Mu_POM*(1+multDry*(1-XiWmemS))*XiTort*XiEZ*POM_old + (1-Lambda_r)*(KdAC*AC_old+(1-Lambda_z)*KdACs_old*AC_old+KdDC*DC_old+KdZC*XiAct*ZC_old+KdEPS*EPS_old+KdEZ*ThetaW_old*EZ_old));
         C_new = C_old + vecK(2)*dt/ThetaW_old*(Mu_POM*(1+multDry*(1-XiWmemS))*XiTort*XiEZ*POM_old-Mu_Ca*XiAct*XiC*AC_old-Mu_Cz*XiAct*XiC*ZC_old+Yos*Tau_OS*ThetaAC_old*(OSac_old-OSeq_old)*(OSac_old>OSeq_old)-rAC*Tau_a*XiWmemB*XiC*DC_old+Lambda_r*(KdAC*AC_old+(1-Lambda_z)*KdACs_old*AC_old+KdDC*DC_old+KdZC*XiAct*ZC_old+KdEPS*EPS_old+KdEZ*ThetaW_old*EZ_old)+ThetaAC_old*OSac_old*(KdAC+KdACs_old)+ThetaDC_old*OSdc_old*KdDC);
-        AC_new = AC_old + vecK(3)*dt*(Y*(1-Lambda_EPS*(1-XiWmemB)-Lambda_EZ*(1-XiEZ))*Mu_Ca*XiAct*XiC*AC_old+Y*Mu_EPS*(1-XiAct*XiC)*XiEPS*XiEZ*AC_old-Tau_i*(1-XiAct*XiC)*AC_old+Tau_a*XiWmemB*XiC*DC_old-KdAC*AC_old-KdACs_old*AC_old-Tau_OS*ThetaAC_old*(OSeq_old-OSac_old)*(OSac_old<OSeq_old));
+        AC_new = AC_old + vecK(3)*dt*(Y*(1-Lambda_EPS*(1-XiWmemB)-Lambda_EZ*(1-XiEZ))*Mu_Ca*XiAct*XiC*AC_old-Tau_i*(1-XiAct*XiC)*AC_old+Tau_a*XiWmemB*XiC*DC_old-KdAC*AC_old-KdACs_old*AC_old-Tau_OS*ThetaAC_old*(OSeq_old-OSac_old)*(OSac_old<OSeq_old));
         EPS_new = EPS_old + vecK(4)*dt*(Y*Lambda_EPS*(1-XiWmemB)*Mu_Ca*XiAct*XiC*AC_old-KdEPS*EPS_old);  % Inactive here. See Brangarí et al. (2018) for details
         EZ_new = EZ_old + vecK(5)*dt/ThetaW_old*(Y*Lambda_EZ*(1-XiEZ)*Mu_Ca*XiAct*XiC*AC_old-KdEZ*ThetaW_old*EZ_old);
         DC_new = DC_old + vecK(6)*dt*(Tau_i*(1-XiAct*XiC)*AC_old-Tau_a*XiWmemB*XiC*DC_old-KdDC*DC_old);
