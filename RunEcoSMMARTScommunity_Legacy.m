@@ -16,7 +16,7 @@ fprintf('\n \n Starting EcoSMMARTS simulation...')
 %% % % % % % % % % Parameter definition
     
     % % % % C compartments: POC (particulate organic matter), DOC (dissolved organic carbon), AC (active cells), EPS (extracellular polymeric substances), EZ (enzymes), DC (dormant cells), OSac (osmolytes in AC), OSdc (osmolytes in DC), CR (cell residues or "zombie cells")    
-  	% % % % This simulation uses two microbial functional groups: fast growers (FG) vs drought resistors (DR)
+    % % % % This simulation uses two microbial functional groups: fast growers (FG) vs drought resistors (DR)
     % % % % FG: with higher growth rates and CUE, slower production of osmolytes, larger decay and death rates under osmotic stress, and larger drought-legacy effects (‘memory’)
     % % % % DR: lower growth and death rates, less efficient use of C, more efficient osmoregulation, and shorter legacy effects
     % % % % Parameters for FG are defined first in vectors (1st position), DR are defined second (2nd position in vectors)
